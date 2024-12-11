@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  angular:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - prod-network
+
+networks:
+  prod-network:
+    driver: bridge

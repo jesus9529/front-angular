@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  angular:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod  # Asegúrate de que el Dockerfile para producción sea el correcto
+    ports:
+      - "80:80"  # Mapear el puerto 80 de nginx al puerto 80 local
+    environment:
+      - NODE_ENV=production  # Establecer la variable de entorno para producción
+    networks:
+      - prod-network
+
+  backend:
+    image: tu-imagen-backend  # Define la imagen de tu backend (Spring Boot)
+    build:
+      context: ./backend  # Asegúrate de que la ruta al Dockerfile del backend sea correcta
+    ports:
+      - "8080:8080"   # Mapeo del puerto local 8080 al puerto 8080 del contenedor
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod  # Configurar el perfil de Spring para producción
+    networks:
+      - prod-network
+
+networks:
+  prod-network:
+    driver: bridge
